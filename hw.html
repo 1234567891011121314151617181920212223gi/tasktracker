@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1> <input type="text" id="new-task" placeholder="New task"> <button id="add-task">Add
+            Task</button>
+        <ul id="task-list"></ul>
+    </div>
+
+
+
+
+    <script>
+        document.getElementById('add-task').addEventListener('click', () => addTask());
+
+        const addTask = () => {
+            let taskInput = document.getElementById('new-task');
+            let taskText = taskInput.value;
+            if (taskText === '') {
+                alert('NHAP TASK!');
+                return;
+            }
+            let li = document.createElement('li');
+            li.innerHTML = `
+        <span>${taskText}</span>
+        <div>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
+    `;
+
+            document.getElementById('task-list').appendChild(li);
+            taskInput.value = '';
+
+            li.querySelector('.edit').addEventListener('click', () => editTask(li));
+            li.querySelector('.delete').addEventListener('click', () => deleteTask(li));
+
+            let cnt = document.getElementById("task-list").getElementsByTagName("li").length
+            if(cnt >=10){
+                alert('ADD VUA TASK THOI!');
+            }
+        };
+
+        const editTask = (taskItem) => {
+            let taskText = taskItem.querySelector('span').textContent;
+            let newTaskText = prompt('EDIT TASK', taskText);
+            if (newTaskText !== null && newTaskText.trim() !== '') {
+                taskItem.querySelector('span').textContent = newTaskText.trim();
+                alert('OK');
+            }
+            else
+            {
+                alert('BO TRONG INPUT THI EDIT TASK LAM GI??');
+            }
+        };
+        const deleteTask = (taskItem) => {
+            taskItem.remove();
+        };
+    </script>
+</body>
+
+</html>
